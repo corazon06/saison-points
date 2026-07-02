@@ -3,6 +3,7 @@ import { getCurrentUser } from "@/lib/session";
 import { getActiveSeason } from "@/lib/season";
 import { prisma } from "@/lib/prisma";
 import { formatDateTime } from "@/lib/format";
+import { RenameForm } from "@/components/RenameForm";
 
 const STATUT_LABELS: Record<string, string> = {
   non_verifie: "Non vérifiée",
@@ -42,7 +43,11 @@ export default async function ProfilPage({
     <div className="flex flex-col gap-6">
       <section className="rounded-2xl bg-gradient-to-br from-royal to-coral p-6 text-white shadow-sm">
         <p className="text-sm text-white/80">Profil</p>
-        <h1 className="text-2xl font-bold">{profileUser.pseudo}</h1>
+        {currentUser.id === profileUser.id ? (
+          <RenameForm currentPseudo={profileUser.pseudo} />
+        ) : (
+          <h1 className="text-2xl font-bold">{profileUser.pseudo}</h1>
+        )}
         <p className="mt-2 text-4xl font-extrabold">{totalScore} pts</p>
         <p className="text-xs text-white/80">Saison en cours</p>
       </section>
