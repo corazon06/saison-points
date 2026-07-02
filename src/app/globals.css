@@ -1,22 +1,25 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fff8f5;
+  --foreground: #14213d;
+
+  /* Palette "été fête" */
+  --color-cream: #ffe1d7;
+  --color-sky: #84affb;
+  --color-royal: #0259dd;
+  --color-coral: #ff6648;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-cream: var(--color-cream);
+  --color-sky: var(--color-sky);
+  --color-royal: var(--color-royal);
+  --color-coral: var(--color-coral);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {

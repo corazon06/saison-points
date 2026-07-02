@@ -1,0 +1,62 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  pseudo       String   @unique
+  passwordHash String
+  avatar       String?
+  admin        Boolean  @default(false)
+  createdAt    DateTime @default(now())
+
+  entries          Entry[] @relation("EntryAuthor")
+  mentionedEntries Entry[] @relation("EntryMentioned")
+}
+
+model Action {
+  id     String @id @default(cuid())
+  nom    String
+  points Int
+
+  entries Entry[]
+}
+
+model Season {
+  id        String   @id @default(cuid())
+  dateDebut DateTime
+  dateFin   DateTime
+  actif     Boolean  @default(true)
+
+  entries Entry[]
+}
+
+enum EntryStatut {
+  non_verifie
+  confirme
+  conteste
+}
+
+model Entry {
+  id               String      @id @default(cuid())
+  userId           String
+  actionId         String
+  seasonId         String
+  date             DateTime    @default(now())
+  mentionedUserId  String?
+  statut           EntryStatut @default(non_verifie)
+
+  user          User    @relation("EntryAuthor", fields: [userId], references: [id])
+  action        Action  @relation(fields: [actionId], references: [id])
+  season        Season  @relation(fields: [seasonId], references: [id])
+  mentionedUser User?   @relation("EntryMentioned", fields: [mentionedUserId], references: [id])
+}
